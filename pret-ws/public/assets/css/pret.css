@@ -1,0 +1,38 @@
+:root {
+      --primary:  #b6da9F;
+      --success-light:#246A73;
+    } 
+
+    body {
+      background-color:  white;
+      font-family: 'Segoe UI', sans-serif;
+    }
+    .navbar {
+      background-color: white;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+    }
+
+    .card {
+      background-color: white;
+      border-radius: 10px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+    }
+
+    .btn-primary {
+      background-color: var(--primary);
+      border-color: var(--primary);
+    }
+
+    .summary-label {
+      font-size: 0.9rem;
+      color: #888;
+    }
+
+    .summary-value {
+      font-weight: 600;
+    } 
+
+    .table thead th, .table thead td, .table thead {
+      background-color: #b6da9F !important;
+      color: #222;
+    }
