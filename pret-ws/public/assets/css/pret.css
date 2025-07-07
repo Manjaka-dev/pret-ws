@@ -1,7 +1,7 @@
 :root {
-      --primary: #246A73;
-      --success-light: #b6da9F;
-    }
+      --primary:  #b6da9F;
+      --success-light:#246A73;
+    } 
 
     body {
       background-color:  white;
