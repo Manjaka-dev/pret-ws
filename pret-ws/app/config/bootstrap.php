@@ -23,6 +23,10 @@ $app = Flight::app();
  */
 $config = require('config.php');
 
+// Handle CORS before any routing
+$corsUtil = new \app\utils\CorsUtil($config['cors']);
+$corsUtil->handle();
+
 // Whip out the ol' router and we'll pass that to the routes file
 $router = $app->router();
 

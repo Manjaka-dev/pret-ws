@@ -11,10 +11,6 @@ use flight\net\Router;
  * @var Engine $app
  */
 
-// Enable CORS for all routes
-$app->before('start', function() use ($app) {
-    $app->cors()->handle();
-});
 
 // Home route
 $router->get('/', function() use ($app) {
@@ -46,8 +42,13 @@ $router->group('/loans', function() use ($router, $app) {
     $router->put('/@id:[0-9]+', [ $loanController, 'updateLoan' ]);
 });
 
-// Legacy route for compatibility
+// Direct routes for compatibility
 $router->post('/login', function() use ($app) {
     $authController = new AuthController($app);
     $authController->login();
+});
+
+$router->post('/register', function() use ($app) {
+    $authController = new AuthController($app);
+    $authController->register();
 });
