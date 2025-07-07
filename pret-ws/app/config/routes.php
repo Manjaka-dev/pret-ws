@@ -48,6 +48,18 @@ $router->group('/loans', function() use ($router, $app) {
     $router->get('/payments', [ $loanController, 'getPayments' ]);
 });
 
+// Type Pret routes
+$router->group('/types-pret', function() use ($router, $app) {
+    $typePretController = new \app\controllers\TypePretController();
+    $router->get('/', [ $typePretController, 'getAll' ]);
+    $router->get('/details', [ $typePretController, 'getById' ]);
+    $router->post('/create', [ $typePretController, 'create' ]);
+    $router->post('/update', [ $typePretController, 'update' ]);
+    $router->post('/delete', [ $typePretController, 'delete' ]);
+    $router->get('/stats', [ $typePretController, 'getStatistics' ]);
+    $router->get('/validate-amount', [ $typePretController, 'validateLoanAmount' ]);
+});
+
 // Direct routes for compatibility
 $router->post('/login', function() use ($app) {
     $authController = new AuthController();
