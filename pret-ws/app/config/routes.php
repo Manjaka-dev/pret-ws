@@ -11,7 +11,6 @@ use flight\net\Router;
  * @var Engine $app
  */
 
-
 // Home route
 $router->get('/', function() use ($app) {
     $app->json(['message' => 'Fintech Banking API', 'version' => '1.0']);
@@ -19,36 +18,43 @@ $router->get('/', function() use ($app) {
 
 // Authentication routes
 $router->group('/auth', function() use ($router, $app) {
-    $authController = new AuthController($app);
+    $authController = new AuthController();
     $router->post('/login', [ $authController, 'login' ]);
     $router->post('/register', [ $authController, 'register' ]);
     $router->post('/logout', [ $authController, 'logout' ]);
 });
 
-// User routes (protected)
+// User routes
 $router->group('/users', function() use ($router, $app) {
-    $userController = new UserController($app);
-    $router->get('/', [ $userController, 'getUsers' ]);
-    $router->get('/@id:[0-9]+', [ $userController, 'getUser' ]);
-    $router->put('/@id:[0-9]+', [ $userController, 'updateUser' ]);
+    $userController = new UserController();
+    $router->get('/', [ $userController, 'getAll' ]);
+    $router->get('/profile', [ $userController, 'getById' ]);
+    $router->get('/solde', [ $userController, 'getSolde' ]);
+    $router->post('/solde/add', [ $userController, 'addSolde' ]);
+    $router->post('/solde/remove', [ $userController, 'removeSolde' ]);
+    $router->get('/historique', [ $userController, 'getHistoriqueMouvement' ]);
+    $router->put('/update', [ $userController, 'update' ]);
 });
 
-// Loan routes (protected)
+// Loan routes
 $router->group('/loans', function() use ($router, $app) {
-    $loanController = new LoanController($app);
-    $router->get('/', [ $loanController, 'getLoans' ]);
-    $router->post('/', [ $loanController, 'createLoan' ]);
-    $router->get('/@id:[0-9]+', [ $loanController, 'getLoan' ]);
-    $router->put('/@id:[0-9]+', [ $loanController, 'updateLoan' ]);
+    $loanController = new LoanController();
+    $router->get('/', [ $loanController, 'getAll' ]);
+    $router->post('/', [ $loanController, 'create' ]);
+    $router->get('/user', [ $loanController, 'getByUserId' ]);
+    $router->get('/details', [ $loanController, 'getById' ]);
+    $router->put('/update', [ $loanController, 'update' ]);
+    $router->post('/payment', [ $loanController, 'addPayment' ]);
+    $router->get('/payments', [ $loanController, 'getPayments' ]);
 });
 
 // Direct routes for compatibility
 $router->post('/login', function() use ($app) {
-    $authController = new AuthController($app);
+    $authController = new AuthController();
     $authController->login();
 });
 
 $router->post('/register', function() use ($app) {
-    $authController = new AuthController($app);
+    $authController = new AuthController();
     $authController->register();
 });

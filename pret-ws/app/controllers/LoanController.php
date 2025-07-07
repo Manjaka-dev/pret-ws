@@ -2,186 +2,133 @@
 
 namespace app\controllers;
 
-use flight\Engine;
+use app\models\Pret;
+use Flight;
 
-class LoanController {
-    
-    protected Engine $app;
-    
-    public function __construct(Engine $app) {
-        $this->app = $app;
+class LoanController
+{
+    public function getAll()
+    {
+        $loans = Pret::getAll();
+        Flight::json([
+            'success' => true,
+            'data' => $loans
+        ]);
     }
     
-    public function getLoans(): void {
-        try {
-            $stmt = $this->app->db()->prepare("
-                SELECT p.*, u.nom, u.prenom, tp.nom as type_pret, sp.nom as statut, ef.nom as etablissement
-                FROM pret p
-                LEFT JOIN user u ON p.id_user = u.id
-                LEFT JOIN type_pret tp ON p.id_type_pret = tp.id
-                LEFT JOIN statut_pret sp ON p.id_statut = sp.id
-                LEFT JOIN etablissement_financier ef ON p.id_EF = ef.id
-                ORDER BY p.date_creation DESC
-            ");
-            $stmt->execute();
-            $loans = $stmt->fetchAll(\PDO::FETCH_ASSOC);
-            
-            $this->app->json([
+    public function getById()
+    {
+        $loanId = Flight::request()->query['id'];
+        $loan = Pret::getById($loanId);
+        
+        if ($loan) {
+            Flight::json([
                 'success' => true,
-                'data' => $loans
+                'data' => $loan
             ]);
-            
-        } catch (\Exception $e) {
-            $this->app->json([
-                'success' => false,
-                'message' => 'Erreur serveur: ' . $e->getMessage()
-            ], 500);
+        } else {
+            Flight::json(['error' => 'Prêt non trouvé'], 404);
         }
     }
     
-    public function createLoan(): void {
-        try {
-            $montant = $this->app->request()->data->montant ?? 0;
-            $idUser = $this->app->request()->data->id_user ?? 0;
-            $idTypePret = $this->app->request()->data->id_type_pret ?? 0;
-            $idEF = $this->app->request()->data->id_EF ?? 1;
-            $description = $this->app->request()->data->description ?? '';
-            
-            if ($montant <= 0 || $idUser <= 0 || $idTypePret <= 0) {
-                $this->app->json([
-                    'success' => false,
-                    'message' => 'Données invalides'
-                ], 400);
-                return;
-            }
-            
-            // Get loan type to calculate due date
-            $stmt = $this->app->db()->prepare("SELECT duree_max FROM type_pret WHERE id = ?");
-            $stmt->execute([$idTypePret]);
-            $typePret = $stmt->fetch(\PDO::FETCH_ASSOC);
-            
-            if (!$typePret) {
-                $this->app->json([
-                    'success' => false,
-                    'message' => 'Type de prêt invalide'
-                ], 400);
-                return;
-            }
-            
-            $dateLimite = date('Y-m-d H:i:s', strtotime("+{$typePret['duree_max']} months"));
-            
-            $stmt = $this->app->db()->prepare("
-                INSERT INTO pret (montant, id_user, id_type_pret, id_EF, id_statut, date_limite, descriptions)
-                VALUES (?, ?, ?, ?, 1, ?, ?)
-            ");
-            
-            $stmt->execute([$montant, $idUser, $idTypePret, $idEF, $dateLimite, $description]);
-            $loanId = $this->app->db()->lastInsertId();
-            
-            $this->app->json([
+    public function getByUserId()
+    {
+        $userId = Flight::request()->query['user_id'];
+        $loans = Pret::getByUserId($userId);
+        
+        Flight::json([
+            'success' => true,
+            'data' => $loans
+        ]);
+    }
+    
+    public function create()
+    {
+        $data = Flight::request()->data;
+        $montant = $data->montant ?? 0;
+        $idUser = $data->id_user ?? 0;
+        $idTypePret = $data->id_type_pret ?? 0;
+        $idEF = $data->id_EF ?? 1;
+        $description = $data->description ?? '';
+        
+        if ($montant <= 0 || $idUser <= 0 || $idTypePret <= 0) {
+            Flight::json(['error' => 'Données invalides'], 400);
+            return;
+        }
+        
+        $loanId = Pret::create([
+            'montant' => $montant,
+            'id_user' => $idUser,
+            'id_type_pret' => $idTypePret,
+            'id_EF' => $idEF,
+            'description' => $description
+        ]);
+        
+        if ($loanId) {
+            Flight::json([
                 'success' => true,
                 'message' => 'Prêt créé avec succès',
                 'loan_id' => $loanId
             ], 201);
-            
-        } catch (\Exception $e) {
-            $this->app->json([
-                'success' => false,
-                'message' => 'Erreur serveur: ' . $e->getMessage()
-            ], 500);
+        } else {
+            Flight::json(['error' => 'Échec de la création du prêt'], 500);
         }
     }
     
-    public function getLoan(int $id): void {
-        try {
-            $stmt = $this->app->db()->prepare("
-                SELECT p.*, u.nom, u.prenom, tp.nom as type_pret, sp.nom as statut, ef.nom as etablissement
-                FROM pret p
-                LEFT JOIN user u ON p.id_user = u.id
-                LEFT JOIN type_pret tp ON p.id_type_pret = tp.id
-                LEFT JOIN statut_pret sp ON p.id_statut = sp.id
-                LEFT JOIN etablissement_financier ef ON p.id_EF = ef.id
-                WHERE p.id = ?
-            ");
-            $stmt->execute([$id]);
-            $loan = $stmt->fetch(\PDO::FETCH_ASSOC);
-            
-            if (!$loan) {
-                $this->app->json([
-                    'success' => false,
-                    'message' => 'Prêt non trouvé'
-                ], 404);
-                return;
+    public function update()
+    {
+        $loanId = Flight::request()->query['id'];
+        $data = Flight::request()->data;
+        
+        if (!Pret::getById($loanId)) {
+            Flight::json(['error' => 'Prêt non trouvé'], 404);
+            return;
+        }
+        
+        $updateData = [];
+        $allowedFields = ['montant', 'id_statut', 'date_limite', 'date_cloture', 'description'];
+        
+        foreach ($allowedFields as $field) {
+            if (isset($data->$field)) {
+                $updateData[$field] = $data->$field;
             }
-            
-            $this->app->json([
-                'success' => true,
-                'data' => $loan
-            ]);
-            
-        } catch (\Exception $e) {
-            $this->app->json([
-                'success' => false,
-                'message' => 'Erreur serveur: ' . $e->getMessage()
-            ], 500);
+        }
+        
+        if (empty($updateData)) {
+            Flight::json(['error' => 'Aucune donnée à mettre à jour'], 400);
+            return;
+        }
+        
+        if (Pret::update($loanId, $updateData)) {
+            Flight::json(['message' => 'Prêt mis à jour avec succès'], 200);
+        } else {
+            Flight::json(['error' => 'Échec de la mise à jour'], 500);
         }
     }
     
-    public function updateLoan(int $id): void {
-        try {
-            $stmt = $this->app->db()->prepare("SELECT id FROM pret WHERE id = ?");
-            $stmt->execute([$id]);
-            
-            if (!$stmt->fetch()) {
-                $this->app->json([
-                    'success' => false,
-                    'message' => 'Prêt non trouvé'
-                ], 404);
-                return;
-            }
-            
-            $fields = [];
-            $values = [];
-            $allowedFields = ['montant', 'id_statut', 'date_limite', 'date_cloture', 'descriptions'];
-            
-            foreach ($allowedFields as $field) {
-                if (isset($this->app->request()->data->$field)) {
-                    $fields[] = "$field = ?";
-                    $values[] = $this->app->request()->data->$field;
-                }
-            }
-            
-            if (empty($fields)) {
-                $this->app->json([
-                    'success' => false,
-                    'message' => 'Aucune donnée à mettre à jour'
-                ], 400);
-                return;
-            }
-            
-            $values[] = $id;
-            $sql = "UPDATE pret SET " . implode(', ', $fields) . " WHERE id = ?";
-            
-            $stmt = $this->app->db()->prepare($sql);
-            $success = $stmt->execute($values);
-            
-            if ($success) {
-                $this->app->json([
-                    'success' => true,
-                    'message' => 'Prêt mis à jour avec succès'
-                ]);
-            } else {
-                $this->app->json([
-                    'success' => false,
-                    'message' => 'Échec de la mise à jour'
-                ], 500);
-            }
-            
-        } catch (\Exception $e) {
-            $this->app->json([
-                'success' => false,
-                'message' => 'Erreur serveur: ' . $e->getMessage()
-            ], 500);
+    public function addPayment()
+    {
+        $data = Flight::request()->data;
+        $loanId = $data->id_pret;
+        $montant = $data->montant;
+        $penalite = $data->penalite ?? 0;
+        $description = $data->description ?? '';
+        
+        if (Pret::addPayment($loanId, $montant, $penalite, $description)) {
+            Flight::json(['message' => 'Paiement ajouté avec succès'], 201);
+        } else {
+            Flight::json(['error' => 'Échec de l\'ajout du paiement'], 400);
         }
+    }
+    
+    public function getPayments()
+    {
+        $loanId = Flight::request()->query['id'];
+        $payments = Pret::getPayments($loanId);
+        
+        Flight::json([
+            'success' => true,
+            'data' => $payments
+        ]);
     }
 }
