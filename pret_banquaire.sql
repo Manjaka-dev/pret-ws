@@ -20,7 +20,7 @@ CREATE TABLE penalite (
   id int PRIMARY KEY AUTO_INCREMENT,
   pourcentage DECIMAL(52),
   date_application datetime DEFAULT CURRENT_TIMESTAMP,
-  description varchar(255)
+  descriptions varchar(255)
 );
 
 CREATE TABLE solde_user (
@@ -35,19 +35,19 @@ CREATE TABLE mouvement_solde (
   id_type_mouvement int,
   id_solde int,
   date_mouvement datetime DEFAULT CURRENT_TIMESTAMP,
-  description varchar(255)
+  descriptions varchar(255)
 );
 
 CREATE TABLE type_mouvement (
   id int PRIMARY KEY AUTO_INCREMENT,
   nom varchar(20) UNIQUE,
-  sens ENUM(debit credit)
+  sens ENUM('debit', 'credit')
 );
 
 CREATE TABLE statut_pret (
   id int PRIMARY KEY AUTO_INCREMENT,
   nom varchar(20) UNIQUE,
-  description varchar(255)
+  descriptions varchar(255)
 );
 
 CREATE TABLE pret (
@@ -60,7 +60,7 @@ CREATE TABLE pret (
   date_creation datetime DEFAULT CURRENT_TIMESTAMP,
   date_limite datetime,
   date_cloture datetime,
-  description varchar(255),
+  descriptions varchar(255),
   FOREIGN KEY (id_statut) REFERENCES statut_pret (id)
 );
 
@@ -90,7 +90,7 @@ CREATE TABLE mouvement_solde_EF (
   id_type_mouvement int,
   id_solde_EF int,
   date_mouvement datetime DEFAULT CURRENT_TIMESTAMP,
-  description varchar(255)
+  descriptions varchar(255)
 );
 
 CREATE TABLE retour_pret (
@@ -99,7 +99,7 @@ CREATE TABLE retour_pret (
   date_retour datetime DEFAULT CURRENT_TIMESTAMP,
   id_pret int,
   penalite decimal(65) DEFAULT 0,
-  description varchar(255)
+  descriptions varchar(255)
 );
 
 ALTER TABLE user ADD FOREIGN KEY (id_type_user) REFERENCES type_user (id);
