@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Demande de Prêt</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="/assets/css/pret.css">
+</head>
+<body>
+      <nav class="navbar navbar-expand-lg px-4">
+    <a class="navbar-brand fw-bold" href="#"> Acceuil</a>
+    <div class="collapse navbar-collapse">
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+        <li class="nav-item"><a class="nav-link active " href="/demande"> Demander un prêt</a></li>
+        <li class="nav-item"><a class="nav-link " href="/solde"> Solde</a></li>
+        <li class="nav-item"><a class="nav-link" href="/rembourser"> Rembourser un prêt</a></li>
+      </ul>
+    </div>
+  </nav>
+  <div class="container py-5">
+    <div class="row g-4">
+  
+      <div class="col-lg-6">
+        <div class="card p-4">
+          <h5 class="mb-4">Demander un nouveau prêt</h5>
+          <form>
+            <div class="mb-3">
+              <label for="montant" class="form-label">Montant du prêt (MGA)</label>
+              <input type="number" class="form-control" id="montant" placeholder="500000">
+            </div>
+            <div class="mb-3">
+              <label for="compte" class="form-label">Numéro de compte bénéficiaire</label>
+              <input type="text" class="form-control" id="compte" placeholder="XXXX-XXXX-1234">
+            </div>
+            <div class="mb-3">
+              <label for="date" class="form-label">Date souhaitée de décaissement</label>
+              <input type="date" class="form-control" id="date" value="2025-07-07">
+            </div>
+            <div class="mb-4">
+              <label for="but" class="form-label">Objet du prêt</label>
+              <select class="form-select" id="but">
+                <option>Amélioration de l'habitat</option>
+                <option>Achat de véhicule</option>
+                <option>Frais de scolarité</option>
+                <option>Autre</option>
+              </select>
+            </div>
+            <button type="submit" class="btn btn-primary w-100">Soumettre la demande de prêt</button>
+          </form>
+        </div>
+      </div>
+
+      <div class="col-lg-6">
+        <div class="card p-4">
+          <h5 class="mb-4">Résumé du prêt</h5>
+          <div class="d-flex justify-content-between">
+            <span class="summary-label">Montant du prêt :</span>
+            <span class="summary-value">500 000 MGA</span>
+          </div>
+          <div class="d-flex justify-content-between">
+            <span class="summary-label">Taux d'intérêt :</span>
+            <span class="summary-value">6,75%</span>
+          </div>
+          <div class="d-flex justify-content-between">
+            <span class="summary-label">Montant demandé :</span>
+            <span class="summary-value">500 000 MGA</span>
+          </div>
+          <div class="d-flex justify-content-between mb-3">
+            <span class="summary-label">Montant total à rembourser :</span>
+            <span class="summary-value">533 375 MGA</span>
+          </div>
+          <hr>
+          <div class="text-center">
+            <h5 class="text-primary">Paiement mensuel estimé</h5>
+            <h2 class="text-primary">12 458 MGA</h2>
+            <p class="text-muted">Sur une période de 12 mois</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>
