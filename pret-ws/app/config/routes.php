@@ -1,6 +1,7 @@
 <?php
 
 use app\controllers\ApiExampleController;
+use app\controllers\fond\EtablissementFinancierController;
 use app\controllers\fond\SoldeEFController;
 use flight\Engine;
 use flight\net\Router;
@@ -9,18 +10,12 @@ use flight\net\Router;
  * @var Router $router 
  * @var Engine $app
  */
-$router->get('/', function() use ($app) {
-	$app->render('welcome', [ 'message' => 'You are gonna do great things!' ]);
-});
 
-$router->get('/hello-world/@name', function($name) {
-	echo '<h1>Hello world! Oh hey '.$name.'!</h1>';
+$router->group('/etablissement-financier', function () use($router) {
+	$EtabliblissementFinancierController = new EtablissementFinancierController();
+	$router->get('/', [$EtabliblissementFinancierController, 'getAll']);
+	$router->get('/@id:[0-9]', [$EtabliblissementFinancierController, 'getById']);
+	$router->get('/solde/@id:[0-9]', [$EtabliblissementFinancierController, 'getSolde']);
+	$router->post('/solde', [$EtabliblissementFinancierController, 'addSolde']);
+	$router->delete('/solde', [$EtabliblissementFinancierController, 'removeSolde']);
 });
-
-$router->group('/api', function() use ($router, $app) {
-	$Api_Example_Controller = new ApiExampleController($app);
-	$router->get('/users', [ $Api_Example_Controller, 'getUsers' ]);
-	$router->get('/users/@id:[0-9]', [ $Api_Example_Controller, 'getUser' ]);
-	$router->post('/users/@id:[0-9]', [ $Api_Example_Controller, 'updateUser' ]);
-});
-
