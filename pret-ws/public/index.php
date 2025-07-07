@@ -11,9 +11,32 @@ Flight::route('GET /', function() {
    include __DIR__ . '/../app/views/auth/signIn.html';
 });
 
-// Redirige la racine vers /signup
+// Route pour afficher le solde
+Flight::route('GET /solde', function() {
+    include __DIR__ . '/../app/views/dashboard/solde.html';
+});
+
+// Route pour afficher le formulaire de demande de prêt
+Flight::route('GET /demande', function() {
+    include __DIR__ . '/../app/views/dashboard/demandePretForm.html';
+});
+
+// Route pour afficher la page de remboursement
+Flight::route('GET /rembourser', function() {
+    include __DIR__ . '/../app/views/dashboard/rembourser.html';
+});
+
+// Redirige vers /signup
 Flight::route('GET /', function() {
     Flight::redirect('/signup');
+});
+//redirige vers solde 
+Flight::route('GET /solde', function() {
+    Flight::redirect('/solde');
+});
+
+Flight::route('GET /demande', function() {
+    Flight::redirect('/demande');
 });
 
 Flight::route('POST /api/auth/register', function() {
