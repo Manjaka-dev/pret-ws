@@ -23,7 +23,7 @@ Flight::route('GET /demande', function() {
 
 // Route pour afficher la page de remboursement
 Flight::route('GET /rembourser', function() {
-    include __DIR__ . '/../app/views/dashboard/rembourser.html';
+    include __DIR__ . '/../app/views/dashboard/rembourserPret.html';
 });
 
 // Redirige vers /signup
@@ -37,6 +37,10 @@ Flight::route('GET /solde', function() {
 
 Flight::route('GET /demande', function() {
     Flight::redirect('/demande');
+});
+
+Flight::route('GET /rembourser', function() {
+    Flight::redirect('/rembourser');
 });
 
 Flight::route('POST /api/auth/register', function() {
