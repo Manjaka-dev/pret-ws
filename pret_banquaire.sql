@@ -23,6 +23,15 @@ CREATE TABLE penalite (
   descriptions varchar(255)
 );
 
+CREATE TABLE penalite_pret (
+  id int PRIMARY KEY AUTO_INCREMENT,
+  id_penalite int PRIMARY KEY AUTO_INCREMENT,
+  id_pret int PRIMARY KEY AUTO_INCREMENT,
+  pourcentage DECIMAL(52),
+  date_application datetime DEFAULT CURRENT_TIMESTAMP,
+  descriptions varchar(255),
+);
+
 CREATE TABLE solde_user (
   id int PRIMARY KEY AUTO_INCREMENT,
   montant decimal(65) DEFAULT 0,
