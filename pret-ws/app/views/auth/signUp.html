@@ -3,189 +3,297 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Créer votre compte</title>
-    <!-- Bootstrap CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <title>Inscription - Fintech Banking</title>
     <style>
-        body {
-            background:  #b6da9F   !important;
-        }
-        .illustration-col {
-            background: #c2e8aa;
-            min-height: 100vh;
+        * {
+            margin: 0;
             padding: 0;
+            box-sizing: border-box;
         }
-        .illustration-bg {
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem 0;
+        }
+
+        .signup-container {
+            background: white;
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
             width: 100%;
-            height: 100vh;
-            object-fit: cover;
-            object-position: center;
+            max-width: 500px;
+        }
+
+        .signup-header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .signup-header h1 {
+            color: #333;
+            margin-bottom: 0.5rem;
+        }
+
+        .signup-header p {
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        .form-row {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+            flex: 1;
+        }
+
+        .form-group label {
             display: block;
+            margin-bottom: 0.5rem;
+            color: #333;
+            font-weight: 500;
         }
-        @media (max-width: 767.98px) {
-            .illustration-col {
-                display: none !important;
-            }
+
+        .form-group input,
+        .form-group select {
+            width: 100%;
+            padding: 0.75rem;
+            border: 2px solid #e1e5e9;
+            border-radius: 5px;
+            font-size: 1rem;
+            transition: border-color 0.3s ease;
         }
-        .btn-orange {
-            background-color:  #b6da9F  ;
-            border-color:  #b6da9F  ;
-            color: #fff;
+
+        .form-group input:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: #667eea;
         }
-        .btn-orange:hover, .btn-orange:focus {
-            background-color: #b6da9F  ;
-            border-color: #b6da9F;
-            color: #fff;
+
+        .btn {
+            width: 100%;
+            padding: 0.75rem;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.2s ease;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+        }
+
+        .btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .alert {
+            padding: 0.75rem;
+            border-radius: 5px;
+            margin-bottom: 1rem;
+            display: none;
+        }
+
+        .alert-success {
+            background-color: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+
+        .alert-error {
+            background-color: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+
+        .links {
+            text-align: center;
+            margin-top: 1.5rem;
+        }
+
+        .links a {
+            color: #667eea;
+            text-decoration: none;
+            font-size: 0.9rem;
+        }
+
+        .links a:hover {
+            text-decoration: underline;
+        }
+
+        .loading {
+            display: none;
+            text-align: center;
+            margin-top: 1rem;
+        }
+
+        .spinner {
+            border: 2px solid #f3f3f3;
+            border-top: 2px solid #667eea;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            animation: spin 1s linear infinite;
+            display: inline-block;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .password-requirements {
+            font-size: 0.8rem;
+            color: #666;
+            margin-top: 0.25rem;
         }
     </style>
 </head>
-<body class="d-flex align-items-center justify-content-center min-vh-100">
-    <div class="container-fluid">
-        <div class="row g-0 min-vh-100 align-items-center">
-            <div class="col-md-6 d-none d-md-block illustration-col">
-                <img src="/assets/img/login.png" alt="illustration" class="illustration-bg">
-            </div>
-            <div class="col-md-6 col-lg-5 mx-auto d-flex align-items-center justify-content-center min-vh-100">
-                <div class="card shadow-lg rounded-4 w-100 my-4">
-                    <div class="card-body p-4">
-                        <h1 class="card-title text-center mb-4">Créer votre compte</h1>
-                        <form id="signupForm">
-                            <div class="mb-3">
-                                <label for="fullName" class="form-label">Nom complet</label>
-                                <input type="text" id="fullName" name="fullName" class="form-control" placeholder="Johnathan Doe" required>
-                                <div class="invalid-feedback" id="fullNameError"></div>
-                            </div>
-                            <div class="mb-3">
-                                <label for="email" class="form-label">Adresse e-mail</label>
-                                <input type="email" id="email" name="email" class="form-control" placeholder="john.doe@example.com" required>
-                                <div class="invalid-feedback" id="emailError"></div>
-                            </div>
-                            <div class="mb-3">
-                                <label for="password" class="form-label">Mot de passe</label>
-                                <input type="password" id="password" name="password" class="form-control" placeholder="••••••••" required>
-                                <div class="invalid-feedback" id="passwordError"></div>
-                            </div>
-                            <div class="mb-3">
-                                <label for="confirmPassword" class="form-label">Confirmer le mot de passe</label>
-                                <input type="password" id="confirmPassword" name="confirmPassword" class="form-control" placeholder="••••••••" required>
-                                <div class="invalid-feedback" id="confirmPasswordError"></div>
-                                <div class="form-text">Le mot de passe doit contenir au moins 8 caractères et inclure un mélange de majuscules, minuscules, chiffres et symboles.</div>
-                            </div>
-                            <button type="submit" class="btn btn-orange w-100">Créer mon compte</button>
-                        </form>
-                        <div class="text-center mt-3">
-                            Vous avez déjà un compte ? <a href="#" class="fw-bold text-decoration-none">Se connecter</a>
-                        </div>
-                    </div>
+<body>
+    <div class="signup-container">
+        <div class="signup-header">
+            <h1>Inscription</h1>
+            <p>Créez votre compte Fintech Banking</p>
+        </div>
+
+        <div id="alert" class="alert"></div>
+
+        <form id="signupForm">
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="nom">Nom</label>
+                    <input type="text" id="nom" name="nom" required>
+                </div>
+                <div class="form-group">
+                    <label for="prenom">Prénom</label>
+                    <input type="text" id="prenom" name="prenom" required>
                 </div>
             </div>
+
+            <div class="form-group">
+                <label for="mail">Email</label>
+                <input type="email" id="mail" name="mail" required>
+            </div>
+
+            <div class="form-group">
+                <label for="id_type_user">Type de compte</label>
+                <select id="id_type_user" name="id_type_user" required>
+                    <option value="1">Client Individuel</option>
+                    <option value="2">Entreprise</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="mdp">Mot de passe</label>
+                <input type="password" id="mdp" name="mdp" required>
+                <div class="password-requirements">
+                    Minimum 6 caractères
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="confirm_mdp">Confirmer le mot de passe</label>
+                <input type="password" id="confirm_mdp" name="confirm_mdp" required>
+            </div>
+
+            <button type="submit" class="btn" id="signupBtn">S'inscrire</button>
+        </form>
+
+        <div class="loading" id="loading">
+            <div class="spinner"></div>
+            <p>Création du compte...</p>
+        </div>
+
+        <div class="links">
+            <a href="signIn.html">Déjà un compte ? Se connecter</a>
         </div>
     </div>
-    <!-- Bootstrap JS (optionnel, pour certains composants) -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
     <script>
-        const API_BASE_URL = '/api';
-        document.getElementById('signupForm').addEventListener('submit', async function(e) {
+        document.getElementById('signupForm').addEventListener('submit', function(e) {
             e.preventDefault();
-            clearErrors();
+            
             const formData = new FormData(this);
-            const data = Object.fromEntries(formData);
-            if (!validateForm(data)) {
+            const signupBtn = document.getElementById('signupBtn');
+            const loading = document.getElementById('loading');
+            const alert = document.getElementById('alert');
+            
+            // Validate passwords match
+            const password = formData.get('mdp');
+            const confirmPassword = formData.get('confirm_mdp');
+            
+            if (password !== confirmPassword) {
+                showAlert('Les mots de passe ne correspondent pas', 'error');
                 return;
             }
-            showLoading(true);
-            try {
-                const response = await fetch(`${API_BASE_URL}/auth/register`, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'X-Requested-With': 'XMLHttpRequest'
-                    },
-                    body: JSON.stringify(data)
-                });
-                const result = await response.json();
-                if (response.ok) {
-                    showSuccess('Compte créé avec succès !');
+            
+            if (password.length < 6) {
+                showAlert('Le mot de passe doit contenir au moins 6 caractères', 'error');
+                return;
+            }
+            
+            // Show loading state
+            signupBtn.disabled = true;
+            loading.style.display = 'block';
+            alert.style.display = 'none';
+            
+            // Convert FormData to URLSearchParams for x-www-form-urlencoded
+            const params = new URLSearchParams();
+            for (let [key, value] of formData.entries()) {
+                params.append(key, value);
+            }
+            
+            fetch('/auth/register', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                },
+                body: params.toString()
+            })
+            .then(response => response.json())
+            .then(data => {
+                loading.style.display = 'none';
+                signupBtn.disabled = false;
+                
+                if (data.success) {
+                    showAlert('Compte créé avec succès ! Redirection vers la connexion...', 'success');
+                    
+                    // Redirect to login after 2 seconds
                     setTimeout(() => {
-                        window.location.href = '/dashboard';
-                    }, 1500);
+                        window.location.href = 'signIn.html';
+                    }, 2000);
                 } else {
-                    handleServerErrors(result.errors || result.message);
+                    showAlert(data.message || 'Erreur lors de la création du compte', 'error');
                 }
-            } catch (error) {
-                console.error('Erreur:', error);
-                showError('Une erreur est survenue. Veuillez réessayer.');
-            } finally {
-                showLoading(false);
-            }
+            })
+            .catch(error => {
+                loading.style.display = 'none';
+                signupBtn.disabled = false;
+                console.error('Error:', error);
+                showAlert('Erreur de connexion au serveur', 'error');
+            });
         });
-        function validateForm(data) {
-            let isValid = true;
-            if (!data.fullName.trim()) {
-                showFieldError('fullName', 'Le nom complet est requis');
-                isValid = false;
-            }
-            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-            if (!emailRegex.test(data.email)) {
-                showFieldError('email', 'Adresse e-mail invalide');
-                isValid = false;
-            }
-            if (data.password.length < 8) {
-                showFieldError('password', 'Le mot de passe doit contenir au moins 8 caractères');
-                isValid = false;
-            }
-            if (data.password !== data.confirmPassword) {
-                showFieldError('confirmPassword', 'Les mots de passe ne correspondent pas');
-                isValid = false;
-            }
-            return isValid;
-        }
-        function showFieldError(fieldName, message) {
-            const errorElement = document.getElementById(fieldName + 'Error');
-            if (errorElement) {
-                errorElement.textContent = message;
-                errorElement.style.display = 'block';
-                errorElement.classList.add('d-block');
-            }
-            const input = document.getElementById(fieldName);
-            if (input) {
-                input.classList.add('is-invalid');
-            }
-        }
-        function clearErrors() {
-            const errorElements = document.querySelectorAll('.invalid-feedback');
-            errorElements.forEach(el => {
-                el.style.display = 'none';
-                el.textContent = '';
-                el.classList.remove('d-block');
-            });
-            const inputs = document.querySelectorAll('.form-control');
-            inputs.forEach(input => {
-                input.classList.remove('is-invalid');
-            });
-        }
-        function showLoading(show) {
-            const form = document.getElementById('signupForm');
-            if (show) {
-                form.classList.add('opacity-50', 'pointer-events-none');
-            } else {
-                form.classList.remove('opacity-50', 'pointer-events-none');
-            }
-        }
-        function showSuccess(message) {
-            alert(message);
-        }
-        function showError(message) {
-            alert(message);
-        }
-        function handleServerErrors(errors) {
-            if (typeof errors === 'string') {
-                showError(errors);
-            } else if (typeof errors === 'object') {
-                Object.keys(errors).forEach(field => {
-                    showFieldError(field, errors[field]);
-                });
-            }
+        
+        function showAlert(message, type) {
+            const alert = document.getElementById('alert');
+            alert.textContent = message;
+            alert.className = `alert alert-${type}`;
+            alert.style.display = 'block';
         }
     </script>
 </body>
