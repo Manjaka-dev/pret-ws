@@ -20,39 +20,39 @@ CREATE TABLE penalite (
   id int PRIMARY KEY AUTO_INCREMENT,
   pourcentage DECIMAL(52),
   date_application datetime DEFAULT CURRENT_TIMESTAMP,
-  description varchar(255)
+  descriptions varchar(255)
 );
 
 CREATE TABLE solde_user (
   id int PRIMARY KEY AUTO_INCREMENT,
-  montant decimal(152) DEFAULT 0,
+  montant decimal(65) DEFAULT 0,
   id_user int UNIQUE
 );
 
 CREATE TABLE mouvement_solde (
   id int PRIMARY KEY AUTO_INCREMENT,
-  montant decimal(152),
+  montant decimal(65),
   id_type_mouvement int,
   id_solde int,
   date_mouvement datetime DEFAULT CURRENT_TIMESTAMP,
-  description varchar(255)
+  descriptions varchar(255)
 );
 
 CREATE TABLE type_mouvement (
   id int PRIMARY KEY AUTO_INCREMENT,
   nom varchar(20) UNIQUE,
-  sens ENUM(debit credit)
+  sens ENUM('debit', 'credit')
 );
 
 CREATE TABLE statut_pret (
   id int PRIMARY KEY AUTO_INCREMENT,
   nom varchar(20) UNIQUE,
-  description varchar(255)
+  descriptions varchar(255)
 );
 
 CREATE TABLE pret (
   id int PRIMARY KEY AUTO_INCREMENT,
-  montant decimal(152),
+  montant decimal(65),
   id_user int,
   id_type_pret int,
   id_EF int,
@@ -60,7 +60,7 @@ CREATE TABLE pret (
   date_creation datetime DEFAULT CURRENT_TIMESTAMP,
   date_limite datetime,
   date_cloture datetime,
-  description varchar(255),
+  descriptions varchar(255),
   FOREIGN KEY (id_statut) REFERENCES statut_pret (id)
 );
 
@@ -69,8 +69,8 @@ CREATE TABLE type_pret (
   nom varchar(20) UNIQUE,
   taux decimal(52),
   duree_max int COMMENT 'en mois',
-  montant_min decimal(152),
-  montant_max decimal(152)
+  montant_min decimal(65),
+  montant_max decimal(65)
 );
 
 CREATE TABLE etablissement_financier (
@@ -81,25 +81,25 @@ CREATE TABLE etablissement_financier (
 
 CREATE TABLE solde_EF (
   id int PRIMARY KEY AUTO_INCREMENT,
-  montant decimal(152) DEFAULT 0
+  montant decimal(65) DEFAULT 0
 );
 
 CREATE TABLE mouvement_solde_EF (
   id int PRIMARY KEY AUTO_INCREMENT,
-  montant decimal(152),
+  montant decimal(65),
   id_type_mouvement int,
   id_solde_EF int,
   date_mouvement datetime DEFAULT CURRENT_TIMESTAMP,
-  description varchar(255)
+  descriptions varchar(255)
 );
 
 CREATE TABLE retour_pret (
   id int PRIMARY KEY AUTO_INCREMENT,
-  montant decimal(152),
+  montant decimal(65),
   date_retour datetime DEFAULT CURRENT_TIMESTAMP,
   id_pret int,
-  penalite decimal(152) DEFAULT 0,
-  description varchar(255)
+  penalite decimal(65) DEFAULT 0,
+  descriptions varchar(255)
 );
 
 ALTER TABLE user ADD FOREIGN KEY (id_type_user) REFERENCES type_user (id);
