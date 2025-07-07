@@ -13,7 +13,7 @@ INSERT INTO type_mouvement (nom, sens) VALUES
 ('Versement Pret', 'credit');
 
 -- Insertion des statuts de prêt
-INSERT INTO statut_pret (nom, description) VALUES
+INSERT INTO statut_pret (nom, descriptions) VALUES
 ('En Cours', 'Prêt en cours de remboursement'),
 ('Rembourse', 'Prêt entièrement remboursé'),
 ('En Retard', 'Prêt avec retard de paiement'),
@@ -27,7 +27,7 @@ INSERT INTO type_pret (nom, taux, duree_max, montant_min, montant_max) VALUES
 ('Professionnel', 6.0, 120, 10000, 1000000);
 
 -- Insertion des pénalités
-INSERT INTO penalite (pourcentage, description) VALUES
+INSERT INTO penalite (pourcentage, descriptions) VALUES
 (2.0, 'Pénalité pour retard de paiement'),
 (1.5, 'Pénalité pour non-respect des échéances');
 
@@ -82,7 +82,7 @@ INSERT INTO solde_user (montant, id_user) VALUES
 (5000, 26), (3000, 27), (2000, 28), (10000, 29), (4000, 30);
 
 -- Insertion des mouvements de solde pour les utilisateurs
-INSERT INTO mouvement_solde (montant, id_type_mouvement, id_solde, description) VALUES
+INSERT INTO mouvement_solde (montant, id_type_mouvement, id_solde, descriptions) VALUES
 (5000, 1, 1, 'Dépôt initial'),
 (3000, 2, 2, 'Retrait pour achat'),
 (-2000, 2, 3, 'Retrait excédentaire'),
@@ -115,7 +115,7 @@ INSERT INTO mouvement_solde (montant, id_type_mouvement, id_solde, description) 
 (4000, 2, 30, 'Retrait achat');
 
 -- Insertion des prêts avec scénarios spécifiques
-INSERT INTO pret (montant, id_user, id_type_pret, id_EF, id_statut, date_limite, date_cloture, description) VALUES
+INSERT INTO pret (montant, id_user, id_type_pret, id_EF, id_statut, date_limite, date_cloture, descriptions) VALUES
 (10000, 1, 1, 1, 1, '2026-07-07', NULL, 'Prêt personnel pour travaux'),
 (200000, 2, 2, 1, 2, '2025-01-07', '2024-12-01', 'Prêt immobilier remboursé en avance'),
 (15000, 3, 3, 2, 3, '2024-06-07', NULL, 'Prêt auto en retard'),
@@ -148,7 +148,7 @@ INSERT INTO pret (montant, id_user, id_type_pret, id_EF, id_statut, date_limite,
 (40000, 30, 2, 2, 1, '2027-07-07', NULL, 'Prêt immobilier en cours');
 
 -- Insertion des remboursements de prêts
-INSERT INTO retour_pret (montant, id_pret, penalite, description) VALUES
+INSERT INTO retour_pret (montant, id_pret, penalite, descriptions) VALUES
 (10000, 1, 0, 'Remboursement mensualité prêt personnel'),
 (200000, 2, 0, 'Remboursement anticipé prêt immobilier'),
 (5000, 3, 300, 'Remboursement partiel prêt auto avec pénalité'),
@@ -181,7 +181,7 @@ INSERT INTO retour_pret (montant, id_pret, penalite, description) VALUES
 (10000, 30, 0, 'Remboursement mensualité prêt immobilier');
 
 -- Insertion des mouvements de solde pour les établissements financiers
-INSERT INTO mouvement_solde_EF (montant, id_type_mouvement, id_solde_EF, description) VALUES
+INSERT INTO mouvement_solde_EF (montant, id_type_mouvement, id_solde_EF, descriptions) VALUES
 (10000, 4, 1, 'Versement prêt personnel client 1'),
 (200000, 4, 1, 'Versement prêt immobilier client 2'),
 (15000, 4, 2, 'Versement prêt auto client 3'),
