@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Loan Dashboard</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="/assets/css/solde.css">
+</head>
+<body>
+  <nav class="navbar navbar-expand-lg px-4">
+    <a class="navbar-brand fw-bold" href="#"> Acceuil</a>
+    <div class="collapse navbar-collapse">
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+        <li class="nav-item"><a class="nav-link" href="/demande"> Demander un prêt</a></li>
+        <li class="nav-item"><a class="nav-link active" href="/solde"> Solde</a></li>
+        <li class="nav-item"><a class="nav-link" href="/rembourser"> Rembourser un prêt</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <div class="container my-4">
+    <div class="row g-4">
+      <div class="col-lg-8">
+        <div class="p-4 balance-box">
+          <p class="text-muted mb-1">Solde actuel</p>
+          <h2 class="balance-text">$5,200.75</h2>
+        </div>
+
+        <div class="card mt-4 p-4">
+          <h5 class="mb-3">Résumé de votre prêt</h5>
+          <ul class="list-unstyled">
+            <li class="d-flex justify-content-between py-1"><span>Total emprunté</span><strong>$15,500.00</strong></li>
+            <li class="d-flex justify-content-between py-1"><span>Total remboursé</span><strong>$10,290.00</strong></li>
+            <li class="d-flex justify-content-between py-1"><span>Intérêts accumulés</span><strong>$450.25</strong></li>
+          </ul>
+        </div>
+
+        <div class="card mt-4 p-4">
+          <h5 class="mb-3">Historique des transactions récentes</h5>
+          <div class="table-responsive">
+            <table class="table">
+              <thead>
+                <tr>
+                  <th>Type</th><th>Montant</th><th>Date</th><th>Status</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr><td>Demande de prêt</td><td class="text-danger">$5,000.00</td><td>2023-10-26</td><td><span class="status-badge completed">Terminé</span></td></tr>
+                <tr><td>Remboursement effectué</td><td class="text-success">$250.00</td><td>2023-11-01</td><td><span class="status-badge completed">Terminé</span></td></tr>
+                <tr><td>Intérêts facturés</td><td class="text-danger">$15.75</td><td>2023-11-05</td><td><span class="status-badge completed">Terminé</span></td></tr>
+                <tr><td>Demande de prêt</td><td class="text-danger">$1,200.00</td><td>2023-11-10</td><td><span class="status-badge pending">En attente</span></td></tr>
+                <tr><td>Remboursement effectué</td><td class="text-success">$300.00</td><td>2023-11-15</td><td><span class="status-badge completed">Terminé</span></td></tr>
+                <tr><td>Demande de prêt</td><td class="text-danger">$800.00</td><td>2023-11-20</td><td><span class="status-badge cancelled">Annulé</span></td></tr>
+                <tr><td>Intérêts facturés</td><td class="text-danger">$22.10</td><td>2023-11-25</td><td><span class="status-badge completed">Terminé</span></td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-lg-4">
+        <div class="card p-3 mb-4">
+          <h6> Actions</h6>
+          <button class="btn btn-primary w-100 my-2">Demander un nouveau prêt</button>
+          <button class="btn btn-outline-secondary w-100">Effectuer un remboursement</button>
+        </div>
+
+        <div class="card p-3 mb-4">
+          <h6>Statut des demandes de prêt</h6>
+          <div class="d-flex justify-content-between">
+            <div>
+              <strong>$1,500.00</strong><br>
+              <small> Applique le 2023-11-28</small>
+            </div>
+            <span class="status-badge pending-approval">Demande en attente</span>
+          </div>
+          <hr>
+          <div class="d-flex justify-content-between">
+            <div>
+              <strong>$750.00</strong><br>
+              <small> Applique le 2023-11-25</small>
+            </div>
+            <span class="status-badge approved">Approuvé</span>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+</body>
+</html>
