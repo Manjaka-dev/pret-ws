@@ -30,4 +30,9 @@
 
     .summary-value {
       font-weight: 600;
+    } 
+
+    .table thead th, .table thead td, .table thead {
+      background-color: #b6da9F !important;
+      color: #222;
     }

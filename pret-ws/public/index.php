@@ -26,6 +26,16 @@ Flight::route('GET /rembourser', function() {
     include __DIR__ . '/../app/views/dashboard/rembourserPret.html';
 });
 
+
+Flight::route('GET /historique', function() {
+    include __DIR__ . '/../app/views/dashboard/historiqueDemande.html';
+
+});
+
+Flight::route('GET /demandePret', function() {
+    include __DIR__ . '/../app/views/dashboardAdmin/listeDemandePret.html';
+});
+
 // Redirige vers /signup
 Flight::route('GET /', function() {
     Flight::redirect('/signup');
@@ -41,6 +51,15 @@ Flight::route('GET /demande', function() {
 
 Flight::route('GET /rembourser', function() {
     Flight::redirect('/rembourser');
+});
+
+
+Flight::route('GET /historique', function() {
+    Flight::redirect('/historique');
+}); 
+
+Flight::route('GET /demandePret', function() {
+    Flight::redirect('/demandePret');
 });
 
 Flight::route('POST /api/auth/register', function() {
