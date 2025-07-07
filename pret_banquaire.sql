@@ -32,7 +32,8 @@ CREATE TABLE penalite_pret (
 CREATE TABLE solde_user (
   id int PRIMARY KEY AUTO_INCREMENT,
   montant decimal(65) DEFAULT 0,
-  id_user int UNIQUE
+  id_user int,
+  date_creation datetime DEFAULT CURRENT_TIMESTAMP
 );
 
 CREATE TABLE mouvement_solde (
@@ -81,13 +82,14 @@ CREATE TABLE type_pret (
 
 CREATE TABLE etablissement_financier (
   id int PRIMARY KEY AUTO_INCREMENT,
-  nom varchar(50) UNIQUE,
-  id_solde int UNIQUE
+  nom varchar(50) UNIQUE
 );
 
 CREATE TABLE solde_EF (
   id int PRIMARY KEY AUTO_INCREMENT,
-  montant decimal(65) DEFAULT 0
+  montant decimal(65) DEFAULT 0,
+  id_etablissement_financier int,
+  date_creation datetime DEFAULT CURRENT_TIMESTAMP
 );
 
 CREATE TABLE mouvement_solde_EF (
@@ -115,16 +117,32 @@ ALTER TABLE mouvement_solde ADD FOREIGN KEY (id_solde) REFERENCES solde_user (id
 ALTER TABLE pret ADD FOREIGN KEY (id_user) REFERENCES user (id);
 ALTER TABLE pret ADD FOREIGN KEY (id_type_pret) REFERENCES type_pret (id);
 ALTER TABLE pret ADD FOREIGN KEY (id_EF) REFERENCES etablissement_financier (id);
-ALTER TABLE etablissement_financier ADD FOREIGN KEY (id_solde) REFERENCES solde_EF (id);
+ALTER TABLE solde_EF ADD FOREIGN KEY (id_etablissement_financier) REFERENCES etablissement_financier (id);
 ALTER TABLE mouvement_solde_EF ADD FOREIGN KEY (id_type_mouvement) REFERENCES type_mouvement (id);
 ALTER TABLE mouvement_solde_EF ADD FOREIGN KEY (id_solde_EF) REFERENCES solde_EF (id);
 ALTER TABLE retour_pret ADD FOREIGN KEY (id_pret) REFERENCES pret (id);
+ALTER TABLE penalite_pret ADD FOREIGN KEY (id_penalite) REFERENCES penalite (id);
+ALTER TABLE penalite_pret ADD FOREIGN KEY (id_pret) REFERENCES pret (id);
 
 
--- requete de calcul des intérêts dus pour chaque retour de prêt 
+-- Requête pour obtenir le solde actuel d'un utilisateur
+-- SELECT * FROM solde_user WHERE id_user = ? ORDER BY id DESC LIMIT 1;
+
+-- Requête pour obtenir le solde actuel d'un établissement financier
+-- SELECT * FROM solde_EF WHERE id_etablissement_financier = ? ORDER BY id DESC LIMIT 1;
+
+-- Requête de calcul des intérêts dus pour chaque retour de prêt 
 SELECT r.*, 
        p.montant * tp.taux / 100 * DATEDIFF(r.date_retour, p.date_creation) 
        AS interet_calcule
 FROM retour_pret r
 JOIN pret p ON r.id_pret = p.id
 JOIN type_pret tp ON p.id_type_pret = tp.id;
+
+-- Requête pour obtenir tous les mouvements de solde d'un établissement financier
+SELECT msef.*, sef.montant, tm.nom as type_mouvement, tm.sens, ef.nom as etablissement
+FROM mouvement_solde_EF AS msef
+JOIN solde_EF AS sef ON sef.id = msef.id_solde_EF
+JOIN type_mouvement AS tm ON tm.id = msef.id_type_mouvement
+JOIN etablissement_financier AS ef ON ef.id = sef.id_etablissement_financier
+WHERE ef.id = 1; 

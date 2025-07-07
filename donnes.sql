@@ -32,12 +32,14 @@ INSERT INTO penalite (pourcentage, descriptions) VALUES
 (1.5, 'Pénalité pour non-respect des échéances');
 
 -- Insertion des établissements financiers
-INSERT INTO solde_EF (montant) VALUES
-(1000000),
-(2000000);
-INSERT INTO etablissement_financier (nom, id_solde) VALUES
-('Banque A', 1),
-('Banque B', 2);
+INSERT INTO etablissement_financier (nom) VALUES
+('Banque A'),
+('Banque B');
+
+-- Insertion des soldes initiaux pour les établissements financiers
+INSERT INTO solde_EF (montant, id_etablissement_financier) VALUES
+(1000000, 1),
+(2000000, 2);
 
 -- Insertion des utilisateurs (30 clients avec scénarios variés)
 INSERT INTO user (nom, prenom, mail, mdp, id_type_user) VALUES
@@ -212,3 +214,8 @@ INSERT INTO mouvement_solde_EF (montant, id_type_mouvement, id_solde_EF, descrip
 (5000, 4, 2, 'Versement prêt personnel client 28'),
 (15000, 4, 1, 'Versement prêt personnel client 29'),
 (40000, 4, 2, 'Versement prêt immobilier client 30');
+
+-- Mise à jour des soldes des établissements financiers après les versements
+INSERT INTO solde_EF (montant, id_etablissement_financier) VALUES
+(290000, 1), -- Banque A après versements (1000000 - 710000)
+(510000, 2); -- Banque B après versements (2000000 - 1490000)

@@ -24,7 +24,3 @@ $router->group('/api', function() use ($router, $app) {
 	$router->post('/users/@id:[0-9]', [ $Api_Example_Controller, 'updateUser' ]);
 });
 
-$SoldeEFCOntroller = new SoldeEFController();
-$router->group('/s', function() use($router)  {
-	$router->get('GET /',[] )
-})
