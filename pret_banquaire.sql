@@ -25,13 +25,13 @@ CREATE TABLE penalite (
 
 CREATE TABLE solde_user (
   id int PRIMARY KEY AUTO_INCREMENT,
-  montant decimal(152) DEFAULT 0,
+  montant decimal(65) DEFAULT 0,
   id_user int UNIQUE
 );
 
 CREATE TABLE mouvement_solde (
   id int PRIMARY KEY AUTO_INCREMENT,
-  montant decimal(152),
+  montant decimal(65),
   id_type_mouvement int,
   id_solde int,
   date_mouvement datetime DEFAULT CURRENT_TIMESTAMP,
@@ -52,7 +52,7 @@ CREATE TABLE statut_pret (
 
 CREATE TABLE pret (
   id int PRIMARY KEY AUTO_INCREMENT,
-  montant decimal(152),
+  montant decimal(65),
   id_user int,
   id_type_pret int,
   id_EF int,
@@ -69,8 +69,8 @@ CREATE TABLE type_pret (
   nom varchar(20) UNIQUE,
   taux decimal(52),
   duree_max int COMMENT 'en mois',
-  montant_min decimal(152),
-  montant_max decimal(152)
+  montant_min decimal(65),
+  montant_max decimal(65)
 );
 
 CREATE TABLE etablissement_financier (
@@ -81,12 +81,12 @@ CREATE TABLE etablissement_financier (
 
 CREATE TABLE solde_EF (
   id int PRIMARY KEY AUTO_INCREMENT,
-  montant decimal(152) DEFAULT 0
+  montant decimal(65) DEFAULT 0
 );
 
 CREATE TABLE mouvement_solde_EF (
   id int PRIMARY KEY AUTO_INCREMENT,
-  montant decimal(152),
+  montant decimal(65),
   id_type_mouvement int,
   id_solde_EF int,
   date_mouvement datetime DEFAULT CURRENT_TIMESTAMP,
@@ -95,10 +95,10 @@ CREATE TABLE mouvement_solde_EF (
 
 CREATE TABLE retour_pret (
   id int PRIMARY KEY AUTO_INCREMENT,
-  montant decimal(152),
+  montant decimal(65),
   date_retour datetime DEFAULT CURRENT_TIMESTAMP,
   id_pret int,
-  penalite decimal(152) DEFAULT 0,
+  penalite decimal(65) DEFAULT 0,
   description varchar(255)
 );
 
